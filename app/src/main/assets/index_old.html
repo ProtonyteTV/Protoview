@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <title>11-28-23</title>
+
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: black; /* Set background to black */
+            margin: 0;
+            padding: 0;
+            color: #fff; /* Change text color to white for better contrast */
+            overflow-x: hidden; /* Prevent horizontal overflow */
+        }
+        .full-screen {
+            position: fixed; /* Fixed position for full-screen */
+            top: 0;
+            left: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            display: flex; /* Use flex to center content */
+            flex-direction: column; /* Vertical alignment */
+            align-items: center; /* Center items */
+            justify-content: center; /* Center vertically */
+            background-color: rgba(0, 0, 0, 0.9); /* Slightly transparent black */
+            z-index: 1000; /* Ensure it appears above other content */
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px; /* Max width for a more focused view */
+            margin: auto;
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white for the container */
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #fff; /* Title text color */
+            margin: 15px 0;
+        }
+        h2 {
+            text-align: center;
+            font-weight: 400;
+            color: #bbb; /* Subtitle color */
+            margin: 10px 0;
+            font-size: 24px;
+        }
+        .button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 20px;
+            background-color: #007AFF; /* iOS blue */
+            color: white;
+            border: none;
+            border-radius: 25px; /* Pill shape */
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth color change */
+            max-width: 220px; /* Limit button width */
+        }
+        .button:hover {
+            background-color: #005BB5; /* Darker blue on hover */
+            transform: scale(1.05); /* Slight zoom on hover */
+        }
+        .image-container {
+            margin: 40px 0; /* Add more margin for spacing */
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Center images vertically */
+            justify-content: center; /* Center the content */
+            transition: transform 0.3s ease; /* Smooth scaling */
+        }
+        .image-container img {
+            width: 100%;
+            max-width: 400px; /* Limit image size */
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2); /* White shadow for contrast */
+            transition: transform 0.3s ease; /* Smooth scaling */
+        }
+        .image-container img:hover {
+            transform: scale(1.05); /* Zoom effect on hover */
+        }
+        .caption {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #ccc; /* Caption color */
+            font-style: normal; /* Italics for captions */
+            text-align: center; /* Center captions */
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999; /* Footer color */
+        }
+        .letter {
+            margin: 40px 0; /* Spacing for the letter */
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent background for letter */
+            border-radius: 10px;
+            color: #fff; /* Letter text color */
+            line-height: 1.5; /* Improved readability */
+        }
+        .separator {
+            margin: 40px 0; /* Increased spacing for clearer separation */
+            border: none; /* No border */
+            border-top: 2px solid rgba(255, 255, 255, 0.5); /* White line for the separator */
+            width: 100%; /* Full width */
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 28px; /* Adjust for smaller screens */
+            }
+            h2 {
+                font-size: 20px; /* Adjust for smaller screens */
+            }
+            .button {
+                font-size: 14px; /* Adjust button text size */
+            }
+            .image-container img {
+                max-width: 100%; /* Full width on small screens */
+            }
+        }
+
+        .modal-content {
+        background-color: #333; /* Dark grey background */
+        color: white; /* White text */
+    }
+
+.full-screen {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.container {
+    display: none; /* Start hidden */
+    opacity: 0; /* Start transparent */
+    transition: opacity 0.5s ease-in-out;
+}
+    </style>
+</head>
+<body>
+
+<!-- Title Screen -->
+<div class="full-screen" id="title-screen">
+    <h1>Happy 1st Anniversary Love</h1>
+    <h3>i hope na magustuhan mo :></h3>
+    <a href="#scrapbook" class="button" id="startButton">Tara na!</a>
+    <div class="footer">Made with love from Kyle Genesis Fernando</div>
+</div>
+
+<!-- Scrapbook Section -->
+<div class="container" id="scrapbook" style="display: none;">
+    <h1>Let’s take a look back at our one-year journey recap</h1>
+    <h2>1 Corinthians 13:8 Love never fails</h2>
+
+
+    <div class="separator"></div> <!-- Separator for Scrapbook and Favorite Photos -->
+
+    <!-- Images from i1 to i10 -->
+    <div class="image-container">
+        <img src="img/i1.JPEG" alt="Image 1">
+    </div>
+    <div class="caption">November 26, 2023 <br><br> " In our first picture, I still remember that day when I stole a kiss on your forehead. I was so nervous because I thought you might get mad or something. Then, when I dropped you off at the baby bus, the bus barker said to me, 'Is that your girlfriend? She's beautiful!' I felt so proud at that time and said, 'Yes, that's my girlfriend.' I was really assuming, hahaha. This was also our first meetup, where I was very quiet, and you were talking non-stop, hahaha pero ngayon pag inasar na kita nagagalit kana joke lang love Iloveyou ❤️"</div>
+
+    <div class="image-container">
+        <img src="img/i2.jpg" alt="Image 2">
+    </div>
+    <div class="caption">December 3, 2023 <br><br> "Our second meetup eto yung time na nag muka akong alalay mo kasi mayor na mayor ang pormahan mo kaya love na love kita kasi lupit mo pumorma ❤️❤️❤️❤️❤️"</div>
+
+    <div class="image-container">
+        <img src="img/i3.JPEG" alt="Image 3">
+    </div>
+    <div class="caption">January 28, 2024 <br><br> "2nd Monthsary natin ito love eto yung 3rd meetup natin after nung nag break tayo at asa caloocan ka non kaya medyo natagalan tayo pero worth it dito na pala yung start ng pinaka love story natin mwuaaaaaaaah 😊❤️"</div>
+
+    <div class="image-container">
+        <img src="img/i4.jpg" alt="Image 4">
+    </div>
+    <div class="caption">February 2024 <br><br> "Eto yung time na wala akong cp kasi nasira hahahaha ang dala ko lang nento is yung qwerty na phone hahaha tas para tayong asa 90s love story na dapat sa gentong oras andto kana at dito tayo mag tatagpo hahahaha 😊"</div>
+
+    <div class="image-container">
+        <img src="img/i5.JPEG" alt="Image 5">
+    </div>
+    <div class="caption">March 10, 2024 <br><br> " Wala tayong masyadong ginawa dito pero at least nag serve tayo kay lord mwuaaaaaah ❤️ "</div>
+
+    <div class="image-container">
+        <img src="img/i7.JPEG" alt="Image 6">
+    </div>
+    <div class="caption">July 28. 2024 <br><br> "8th Motmot natin ito nag first pic for a while hahahaha ang cute natin dito eto yung mga pic na gusto ko eee ni kikiss ako ng lablab ko mwuaaaah ❤️"</div>
+
+    <div class="image-container">
+        <img src="img/i8.JPG" alt="Image 7">
+    </div>
+    <div class="caption">August 26, 2024 <br><br> "HAHAHAHA sa wakas naka bawi tayo ng pic kasi nung recital ko nag karoon tayo ng misundersating eee kaya di tayo nakapag pic dun pero okay lang nakabawi naman eee tas sa anniv pa ng chruch kaya memorable din para sakin "</div>
+
+    <div class="image-container">
+        <img src="img/i9.JPEG" alt="Image 8">
+    </div>
+    <div class="caption">August 28, 2024 <br><br> " First Gala date natin from Cavite to Manila hahahaha thank sa libre love ahh kahit walang wala ako ni libre mo padin ako saka eto yung di ka pumasok kasi maulan hahahahahaha tas nagagalit ka pa sakin kasi inaasar kita 😂❤️"</div>
+
+    <div class="image-container">
+        <img src="img/i10.JPEG" alt="Image 9">
+    </div>
+
+    <div class="image-container">
+        <img src="img/i11.JPEG" alt="Image 10">
+    </div>
+    <div class="caption">September 23, 2024 <br><br> "Our latest photo muka lang tayong hagard dito pero worth it naman alam ko love ni advance ko na tong anniversary gift ko sayo wala eee i can't wait na eee read my message below for futher details 😉"</div>
+
+    <div class="separator"></div> <!-- Separator for Scrapbook and My Favorite Photos -->
+
+
+    <!-- Button to trigger the modal -->
+    <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#messageModal">
+        For You Love ❤️
+    </button>
+
+    <!-- Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Thank you for everything love mwuaah</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding: 20px;">
+                    <p>Happy First Anniversary, my love! Did you enjoy our first year together? I certainly did. First of all, I want to thank you for understanding me when my phone broke last February 2024. I saw your patience, and you never seemed tired of me, even when I was struggling. Your unwavering support made all the difference in my life. Thank you for the heartfelt letter you wrote me on my birthday and for all the thoughtful gifts; I truly appreciate every one of them.</p>
+                    <p>This year, I want to repay you by making this app for you. I've collected all the photos I cherish the most because they are meaningful to me. I know you have your own memories too, but these are mine, and I hope they bring back fond moments for you as well.</p>
+                    <p>Thank you for never abandoning me, even during my identity crisis last August and the phone issues last July. You are the best girlfriend God has given me, and I feel so blessed to have you in my life. Though our relationship isn't perfect, every moment we share is worth saving, keeping, and protecting.</p>
+                    <p>I’m sorry if sometimes I’m hard to understand or have trouble expressing my feelings or problems; I often think it’s not worth it to bring them up. But my feelings matter to you, so I’m trying to share everything, even the little things.</p>
+                    <p>Always remember, I’m here for you every step of the way. I will protect you, love you, and guide you. When you have problems, remember that you can overcome them, and we, along with God, will never abandon you. Even if you feel like everyone is against you, we won’t turn our backs.</p>
+                    <p>I hope we grow stronger together and never tire of each other. Let’s continue to strengthen our relationship through Christ, as it needs His guidance, my love. I’m excited for what the future holds for us, and I can’t wait to  give you my special gift for you. I look forward to creating many more beautiful memories together in the years to come iloveyou.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>My Favorite Photos of You</h2>
+
+    <div class="image-container">
+        <img src="img/f1.jpg" alt="Favorite Photo 1">
+    </div>
+    <div class="caption">"You are the melody my heart sings"</div>
+
+    <div class="image-container">
+        <img src="img/f2.JPG" alt="Favorite Photo 2">
+    </div>
+    <div class="caption">"Walang katulad ang ganda mo."</div>
+
+    <div class="image-container">
+        <img src="img/f3.JPG" alt="Favorite Photo 3">
+    </div>
+    <div class="caption">"Sa bawat ngiti mo, ako'y nahuhulog."</div>
+
+    <div class="image-container">
+        <img src="img/f4.JPEG" alt="Favorite Photo 4">
+    </div>
+    <div class="caption">"Kasabay ng ulan, bumubuhos ang iyong ganda"</div>
+
+    <div class="image-container">
+        <img src="img/f5.JPG" alt="Favorite Photo 5">
+    </div>
+    <div class="caption">"Pag-ibig ko'y umaapaw, damdamin ko'y humihiyaw sa tuwa
+        Tuwing umuulan at kapiling ka"</div>
+
+    <div class="image-container">
+        <img src="img/f6.JPG" alt="Favorite Photo 6">
+    </div>
+    <div class="caption">"Ikaw ang aking liwanag sa dilim."</div>
+
+    <div class="image-container">
+        <img src="img/f7.JPG" alt="Favorite Photo 7">
+    </div>
+    <div class="caption">"Sa ilalim ng mga bituin, ikaw ang kasama."</div>
+
+    <div class="image-container">
+        <img src="img/f8.JPG" alt="Favorite Photo 8">
+    </div>
+    <div class="caption">"Just remember to smile."</div>
+
+    <div class="image-container">
+        <img src="img/f9.JPG" alt="Favorite Photo 9">
+    </div>
+    <div class="caption">"Ikaw ang dahilan ng aking saya."</div>
+
+    <div class="image-container">
+        <img src="img/f10.JPEG" alt="Favorite Photo 10">
+    </div>
+    <div class="caption">"Sa bawat yakap mo, ako'y napapawi."</div>
+
+    <div class="image-container">
+        <img src="img/f12.JPG" alt="Favorite Photo 11">
+    </div>
+    <div class="caption">"Sa bawat araw, ikaw ang aking inspirasyon."</div>
+
+    <div class="image-container">
+        <img src="img/f13.JPG" alt="Favorite Photo 12">
+    </div>
+    <div class="caption">"Ikaw ang aking puso, ikaw ang aking buhay."</div>
+
+    <div class="image-container">
+        <img src="img/f14.JPG" alt="Favorite Photo 13">
+    </div>
+    <div class="caption">"Kahit malayo, ikaw ang nasa isip ko."</div>
+    <br>
+    <div class="separator"></div>
+    <div class="caption">
+        <h5>Bible na pinang hawakan ko sa relasyon natin ❤</h5>
+    </div>
+    <div class="caption">
+        <p>1 Corinthians 13:8 "Love never fails"</p>
+    </div>
+    <div class="caption">
+        <p>Colossians 3:14 “And over all these virtues put on love, which binds them all together in perfect unity.”</p>
+    </div>
+    <div class="caption">
+        <p>Habakkuk 2:3 This vision is for a future time. It describes the end, and it will be fulfilled. If it seems slow in coming, wait patiently, for it will surely take place. It will not be delayed.</p>
+    </div>
+    <div class="caption">
+        <p>Galatians 5:22-23 But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control; against such things there is no law.</p>
+    </div>
+    <div class="separator"></div>
+    <div class="footer"><p>XI・XXVIII・MMXXIII<br>For Aimic Liezel Mikitpikit ❤</p></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrapbook = document.getElementById('scrapbook');
+        scrapbook.style.display = 'none'; // Ensure scrapbook is hidden initially
+
+        document.getElementById('startButton').onclick = function() {
+            const titleScreen = document.getElementById('title-screen');
+            titleScreen.style.opacity = '0'; // Fade out title screen
+
+            // Transition delay
+            setTimeout(() => {
+                titleScreen.style.display = 'none'; // Hide title screen
+                scrapbook.style.display = 'block'; // Show scrapbook
+                setTimeout(() => {
+                    scrapbook.style.opacity = '1'; // Fade in scrapbook
+                }, 10); // Allow time for display update
+            }, 500); // Match CSS transition duration
+        };
+    });
+</script>
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
