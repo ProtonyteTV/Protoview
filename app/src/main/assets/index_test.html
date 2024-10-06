@@ -8,143 +8,159 @@
     <title>112823</title>
 
     <style>
-       body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: black; /* Set background to black */
-            margin: 0;
-            padding: 0;
-            color: #fff; /* Change text color to white for better contrast */
-            overflow-x: hidden; /* Prevent horizontal overflow */
-        }
-        .full-screen {
-            position: fixed; /* Fixed position for full-screen */
-            top: 0;
-            left: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            display: flex; /* Use flex to center content */
-            flex-direction: column; /* Vertical alignment */
-            align-items: center; /* Center items */
-            justify-content: center; /* Center vertically */
-            background-color: rgba(0, 0, 0, 0.9); /* Slightly transparent black */
-            z-index: 1000; /* Ensure it appears above other content */
-        }
-        .container {
-            padding: 20px;
-            max-width: 800px; /* Max width for a more focused view */
-            margin: auto;
-            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white for the container */
-            border-radius: 20px;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
-        }
-        h1 {
-            text-align: center;
-            font-size: 36px;
-            font-weight: bold;
-            color: #fff; /* Title text color */
-            margin: 15px 0;
-        }
-        h2 {
-            text-align: center;
-            font-weight: 400;
-            color: #bbb; /* Subtitle color */
-            margin: 10px 0;
-            font-size: 24px;
-        }
-        .button {
-            display: block;
-            margin: 20px auto;
-            padding: 12px 20px;
-            background-color: #007AFF; /* iOS blue */
-            color: white;
-            border: none;
-            border-radius: 25px; /* Pill shape */
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth color change */
-            max-width: 220px; /* Limit button width */
-        }
-        .button:hover {
-            background-color: #005BB5; /* Darker blue on hover */
-            transform: scale(1.05); /* Slight zoom on hover */
-        }
-        .image-container {
-            margin: 40px 0; /* Add more margin for spacing */
-            display: flex; /* Use flexbox for alignment */
-            align-items: center; /* Center images vertically */
-            justify-content: center; /* Center the content */
-            transition: transform 0.3s ease; /* Smooth scaling */
-        }
-        .image-container img {
-            width: 100%;
-            max-width: 400px; /* Limit image size */
-            border-radius: 20px; /* Rounded corners */
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2); /* White shadow for contrast */
-            transition: transform 0.3s ease; /* Smooth scaling */
-        }
-        .image-container img:hover {
-            transform: scale(1.05); /* Zoom effect on hover */
-        }
-        .caption {
-            margin-top: 10px;
-            font-size: 16px;
-            color: #ccc; /* Caption color */
-            font-style: normal; /* Italics for captions */
-            text-align: center; /* Center captions */
-        }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #999; /* Footer color */
-        }
-        .letter {
-            margin: 40px 0; /* Spacing for the letter */
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent background for letter */
-            border-radius: 10px;
-            color: #fff; /* Letter text color */
-            line-height: 1.5; /* Improved readability */
-        }
-        .separator {
-            margin: 40px 0; /* Increased spacing for clearer separation */
-            border: none; /* No border */
-            border-top: 2px solid rgba(255, 255, 255, 0.5); /* White line for the separator */
-            width: 100%; /* Full width */
-        }
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 28px; /* Adjust for smaller screens */
-            }
-            h2 {
-                font-size: 20px; /* Adjust for smaller screens */
-            }
-            .button {
-                font-size: 14px; /* Adjust button text size */
-            }
-            .image-container img {
-                max-width: 100%; /* Full width on small screens */
-            }
-        }
-
-        .modal-content {
-        background-color: #333; /* Dark grey background */
-        color: white; /* White text */
-    }
-        .add-entry-container {
-    margin: 20px 0;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.2); /* Light background for contrast */
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #F7F7F8; /* Very light gray background, Apple-like */
+    margin: 0;
+    padding: 0;
+    color: #333; /* Softer text color for readability */
+    overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
-        .delete-entry-button {
+.full-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Soft, transparent white */
+    z-index: 1000;
+}
+
+.container {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    background-color: #FFFFFF; /* Clean white background */
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Light shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+h1 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 600;
+    color: #1C1C1E; /* Darker title text */
+    margin: 15px 0;
+}
+
+h2 {
+    text-align: center;
+    font-weight: 400;
+    color: #636366; /* Light gray for subtitle */
+    margin: 10px 0;
+    font-size: 22px;
+}
+
+.button {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 20px;
+    background-color: #007AFF; /* iOS blue */
+    color: white;
+    border: none;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    max-width: 220px;
+}
+
+.button:hover {
+    background-color: #005BB5;
+    transform: scale(1.05);
+}
+
+.image-container {
+    margin: 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.image-container img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    transition: transform 0.3s ease;
+}
+
+.image-container img:hover {
+    transform: scale(1.05);
+}
+
+.caption {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #8E8E93; /* Soft, muted gray for captions */
+    font-style: italic;
+    text-align: center;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #AEAEB2; /* Light gray for footer */
+}
+
+.letter {
+    margin: 40px 0;
+    padding: 20px;
+    background-color: #FFFFFF; /* White background */
+    border-radius: 10px;
+    color: #1C1C1E; /* Dark text for readability */
+    line-height: 1.5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow for the letter */
+}
+
+.separator {
+    margin: 40px 0;
+    border: none;
+    border-top: 1px solid #D1D1D6; /* Subtle light gray line for separator */
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 28px;
+    }
+    h2 {
+        font-size: 20px;
+    }
+    .button {
+        font-size: 14px;
+    }
+    .image-container img {
+        max-width: 100%;
+    }
+}
+
+.modal-content {
+    background-color: #F2F2F7; /* Light gray modal background */
+    color: #1C1C1E; /* Dark text for contrast */
+}
+
+.add-entry-container {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #FFFFFF; /* Light background for entry container */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Softer shadow */
+}
+
+.delete-entry-button {
     margin-top: 10px;
     padding: 8px 12px;
-    background-color: #FF3B30; /* Red color for delete */
+    background-color: #FF3B30;
     color: white;
     border: none;
     border-radius: 5px;
@@ -153,7 +169,7 @@
 }
 
 .delete-entry-button:hover {
-    background-color: #C72C2A; /* Darker red on hover */
+    background-color: #C72C2A;
 }
 
 .add-entry-textarea {
@@ -161,66 +177,52 @@
     height: 100px;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid #007AFF; /* Blue border */
-    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
-    color: #fff; /* White text */
+    border: 1px solid #007AFF;
+    background-color: #F2F2F7; /* Light background for textarea */
+    color: #1C1C1E; /* Dark text for readability */
     font-size: 16px;
-    resize: none; /* Prevent resizing */
-    margin-bottom: 10px; /* Space below the textarea */
+    resize: none;
+    margin-bottom: 10px;
 }
 
 .add-entry-file {
-    margin-bottom: 10px; /* Space below the file input */
+    margin-bottom: 10px;
 }
 
 .add-entry-button {
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: #007AFF; /* iOS blue */
+    background-color: #007AFF;
     color: white;
     border: none;
-    border-radius: 10px; /* Rounded corners */
+    border-radius: 10px;
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
 .add-entry-button:hover {
-    background-color: #005BB5; /* Darker blue on hover */
+    background-color: #005BB5;
 }
 
-        .entry {
+.entry {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centering items horizontally */
-    text-align: center;  /* Centering text */
+    align-items: center;
+    text-align: center;
     margin: 20px;
     padding: 15px;
-    border-radius: 12px; /* Rounded corners for a softer look */
-    background-color: #5d5656; /* Light background for a clean look */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border-radius: 12px;
+    background-color: #FFFFFF; /* Clean white background */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Soft shadow */
 }
 
 .entry img {
-    max-width: 90%; /* Adjusting image width for better responsiveness */
-    border-radius: 12px; /* Rounded corners for images */
+    max-width: 90%;
+    border-radius: 12px;
 }
 
-.delete-entry-button {
-    background-color: #e74c3c; /* Red color for delete button */
-    color: white; /* White text color */
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.delete-entry-button:hover {
-    background-color: #c0392b; /* Darker red on hover */
-}
-
-        .red-button {
+.red-button {
     background-color: red;
     color: white;
     border: none;
@@ -249,27 +251,28 @@
 }
 
 .add-entry-file {
-    display: none; /* Hide the actual file input */
+    display: none;
 }
 
 .image-preview {
     margin-top: 10px;
     max-width: 100%;
     max-height: 200px;
-    display: none; /* Initially hidden */
+    display: none;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
 .full-screen {
     opacity: 1;
-    transition: opacity 0.5s ease; /* Fade transition */
+    transition: opacity 0.5s ease;
 }
 
 .full-screen.hidden {
-    opacity: 0; /* Hidden state */
-    pointer-events: none; /* Prevent interaction when hidden */
+    opacity: 0;
+    pointer-events: none;
 }
+
     </style>
 </head>
 <body>
