@@ -4,7 +4,7 @@ A project developed by ProtonyteTV
 ## Features
 - **DOM Storage**: Persistent storage solution for web applications.
 - **Image File Upload**: Support for uploading image files through the WebView.
-- **DOM Storage Backup and Restore**: Easily back up and restore DOM storage, including images.
+~~**DOM Storage Backup and Restore**: Easily back up and restore DOM storage, including images.~~
 
 > **Note:** Full source code is available, excluding HTML content, which will be removed in future commits.
 
