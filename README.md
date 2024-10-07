@@ -18,3 +18,4 @@ A project developed by ProtonyteTV
 ## Changelog
 - **Added:** DOM storage backup and restore functionality.
 - **Fixed:** Enhanced support for image uploads.
+- **Removed:** Html contents *excluding index.html and css.
