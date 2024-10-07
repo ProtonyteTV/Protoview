@@ -10,7 +10,7 @@ A project developed by ProtonyteTV
 
 ---
 
-## Build Details
+## Build Details ⬜
 - **Target API:** Android 5.0 (Lollipop)
 - **Gradle Version:** 8.5
 - **Android Gradle Plugin (AGP):** 8.1.1
