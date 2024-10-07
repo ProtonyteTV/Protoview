@@ -10,10 +10,10 @@ A project developed by ProtonyteTV
 
 ---
 
-## Build Details ⬜
-- **Target API:** Android 5.0 (Lollipop)
-- **Gradle Version:** 8.5
-- **Android Gradle Plugin (AGP):** 8.1.1
+## Build Details
+- **Target API:** [Android 5.0 (Lollipop)]
+- **Gradle Version:** [8.5]
+- **Android Gradle Plugin (AGP):** [8.1.1]
 
 ## Changelog
 - **Added:** DOM storage backup and restore functionality.
