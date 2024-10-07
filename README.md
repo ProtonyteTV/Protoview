@@ -5,6 +5,8 @@ Features
 1.DomStorage
 <br>
 2.Image File Upload
+<br>
+3.DomStorage Backup and restore
 
 Full Sources Available excluding the html contents soon to remove on future commits
 --------
@@ -20,4 +22,5 @@ AGP 8.1.1
 
 Changelogs
 -
-Fixed An issue the app is not installing on Android 13 and Up
+Added - Domstorage Backup and restore
+Fixed - Image Support
