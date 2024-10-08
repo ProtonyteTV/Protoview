@@ -1,38 +1,31 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/main.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
     <title>112823</title>
 </head>
 <body>
 
 <!-- Title Screen -->
 <div class="full-screen" id="title-screen">
-    <h1>112823</h1>
-    <h3>title_screen_placeholder</h3>
-    <p>Tap to start</p>
-    <a href="#scrapbook" class="button">start</a>
+    <h1>Protoview</h1>
+    <h3>A Webview App</h3>
+    <p>Tap to strat</p>
+    <a href="#scrapbook" class="button">Start</a>
     <div class="footer">Made with love from Kyle Genesis Fernando</div>
 </div>
+
 <!-- Scrapbook Section -->
 <div class="container" id="scrapbook" style="display: none;">
-    <h1 style="font-size: 30px">title_placeholder</h1>
+    <h1 style="font-size: 30px">Header</h1>
 
-    <div class="separator"></div>
-
-    <div class="separator"></div>
-
-    <h2>text_placeholder</h2>
     <div id="entriesContainer"></div>
-
 
     <div class="add-entry-container">
         <h4 style="text-align: center; font-size: 25px;">Add own photos and notes</h4>
-        <h4 style="text-align: center; font-size: 20px;">this is only a proof of concept</h4>
         <textarea id="noteInput" placeholder="Write your notes here..." class="add-entry-textarea"></textarea>
 
         <div class="image-upload-container">
@@ -40,175 +33,206 @@
                 <span>Choose Image</span>
                 <input type="file" id="imageInput" accept="image/*" capture="camera" class="add-entry-file" />
             </label>
-            <img id="imagePreview" class="image-preview" alt="Image Preview" />
+            <img id="imagePreview" class="image-preview" alt="Image Preview" style="display:none;" />
         </div>
 
         <button id="addButton" class="add-entry-button">Add Entry</button>
         <br>
         <button id="jiggleButton" class="add-entry-button red-button">Delete an entry</button>
+        <button id="saveButton" class="add-entry-button">Save Entries</button>
+        <button id="restoreButton" class="add-entry-button">Restore Entries</button>
     </div>
-
-
-
     <div class="separator"></div>
-    <button onclick="Android.exportDomStorage()">Export DOM Data</button>
-    <button onclick="Android.importDomStorage()">Import DOM Data</button>
-    <div class="separator"></div>
-    <div class="footer"><p>poc</p></div>
+    <div class="footer"><p>ProtoView</p></div>
 </div>
 
+<script>
+    let db;
+let isJiggling = false;
 
-    <script>
-	// Function to back up all DOM storage (including scrapbook entries and images)
-     function getDomStorageData() {
-         let data = {};
+// Open IndexedDB
+function openDatabase() {
+    const request = indexedDB.open('scrapbookDB', 1);
 
-         // Backup scrapbook entries
-         let scrapbookEntries = localStorage.getItem('scrapbookEntries');
-         if (scrapbookEntries) {
-             data['scrapbookEntries'] = scrapbookEntries; // Store entries as JSON string
-         }
+    request.onupgradeneeded = function(event) {
+        db = event.target.result;
+        const objectStore = db.createObjectStore('entries', { keyPath: 'id', autoIncrement: true });
+        objectStore.createIndex('note', 'note', { unique: false });
+        objectStore.createIndex('image', 'image', { unique: false });
+    };
 
-         return JSON.stringify(data); // Convert to JSON for saving
-     }
+    request.onsuccess = function(event) {
+        db = event.target.result;
+        loadEntries();
+    };
 
-     // Function to restore all DOM storage (including scrapbook entries and images)
-     function restoreDomStorageData(data) {
-         let parsedData = JSON.parse(data);
+    request.onerror = function(event) {
+        console.error('Error opening database:', event);
+    };
+}
 
-         // Restore scrapbook entries
-         if (parsedData['scrapbookEntries']) {
-             localStorage.setItem('scrapbookEntries', parsedData['scrapbookEntries']);
-         }
+// Add a new entry to IndexedDB
+function saveEntry(note, imageFile) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const transaction = db.transaction(['entries'], 'readwrite');
+        const objectStore = transaction.objectStore('entries');
+        const newEntry = {
+            note: note,
+            image: event.target.result // Base64 string of the image
+        };
+        objectStore.add(newEntry);
+        loadEntries(); // Load entries after saving
+    };
 
-         // Reload the entries after restoration
-         loadEntries();
-     }
+    if (imageFile) {
+        reader.readAsDataURL(imageFile);
+    } else {
+        saveEntryWithoutImage(note);
+    }
+}
 
-     document.querySelector('.button').onclick = function() {
-         const titleScreen = document.getElementById('title-screen');
-         titleScreen.classList.add('hidden'); // Add the hidden class to start the fade-out
-         setTimeout(() => {
-             titleScreen.style.display = 'none'; // Hide after the transition
-             document.getElementById('scrapbook').style.display = 'block';
-             loadEntries(); // Load existing entries when entering the scrapbook
-         }, 500); // Match the timeout with the CSS transition duration
-     };
+function saveEntryWithoutImage(note) {
+    const transaction = db.transaction(['entries'], 'readwrite');
+    const objectStore = transaction.objectStore('entries');
+    const newEntry = { note: note, image: null };
+    objectStore.add(newEntry);
+    loadEntries(); // Load entries after saving
+}
 
-     document.addEventListener('DOMContentLoaded', function() {
-         const scrapbook = document.getElementById('scrapbook');
-         scrapbook.style.display = 'none'; // Ensure scrapbook is hidden initially
+// Load all entries from IndexedDB
+function loadEntries() {
+    const entriesContainer = document.getElementById('entriesContainer');
+    entriesContainer.innerHTML = ''; // Clear existing entries
 
-         document.getElementById('addButton').onclick = function() {
-             const noteInput = document.getElementById('noteInput');
-             const imageInput = document.getElementById('imageInput');
+    const transaction = db.transaction(['entries'], 'readonly');
+    const objectStore = transaction.objectStore('entries');
+    const request = objectStore.getAll();
 
-             if (noteInput.value.trim() === "") {
-                 alert("Please write a note.");
-                 return;
-             }
+    request.onsuccess = function(event) {
+        const entries = event.target.result;
+        entries.forEach((entry) => {
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'entry';
+            entryDiv.innerHTML =
+                `<p>${entry.note}</p>
+                ${entry.image ? `<img src="${entry.image}" alt="Entry Image" />` : ''}
+                ${isJiggling ? `<button class="delete-entry-button" onclick="deleteEntry(${entry.id})">Delete</button>` : ''}`;
+            entriesContainer.appendChild(entryDiv);
+        });
+    };
+}
 
-             saveEntry(noteInput.value, imageInput.files[0]);
+// Delete an entry from IndexedDB
+function deleteEntry(id) {
+    const transaction = db.transaction(['entries'], 'readwrite');
+    const objectStore = transaction.objectStore('entries');
+    objectStore.delete(id);
+    loadEntries(); // Reload entries after deletion
+}
 
-             // Clear the input fields
-             noteInput.value = '';
-             imageInput.value = '';
-             document.getElementById('imagePreview').style.display = 'none'; // Hide the preview
-         };
+// Save all entries to JSON and prompt user to download
+function saveEntries() {
+    console.log("Save entries function triggered");
+    const transaction = db.transaction(['entries'], 'readonly');
+    const objectStore = transaction.objectStore('entries');
+    const request = objectStore.getAll();
 
-         document.getElementById('imageInput').onchange = function(event) {
-             const file = event.target.files[0];
-             const reader = new FileReader();
+    request.onsuccess = function(event) {
+        const entries = event.target.result;
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(entries));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "scrapbookEntries.json");
+        downloadAnchor.click();
+    };
+}
 
-             reader.onload = function(e) {
-                 const imagePreview = document.getElementById('imagePreview');
-                 imagePreview.src = e.target.result; // Set the preview source
-                 imagePreview.style.display = 'block'; // Show the preview
-             };
+// Transition from title screen to scrapbook
+document.querySelector('.button').onclick = function() {
+    const titleScreen = document.getElementById('title-screen');
+    titleScreen.classList.add('hidden'); // Start the fade-out transition
 
-             if (file) {
-                 reader.readAsDataURL(file);
-             } else {
-                 document.getElementById('imagePreview').style.display = 'none'; // Hide if no file
-             }
-         };
+    // Wait for the fade-out effect to complete before displaying the scrapbook
+    setTimeout(() => {
+        titleScreen.style.display = 'none'; // Hide after the transition
+        document.getElementById('scrapbook').style.display = 'block'; // Show scrapbook
+        loadEntries(); // Load existing entries when entering the scrapbook
+    }, 500); // Match this timeout with the CSS transition duration
+};
 
-         // Toggle jiggle mode
-         document.getElementById('jiggleButton').onclick = function() {
-             isJiggling = !isJiggling;
-             loadEntries(); // Refresh to show/hide delete buttons
-         };
-     });
+// Restore entries from a JSON file
+function restoreEntries() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'application/json';
+    fileInput.onchange = function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
 
-     let isJiggling = false; // State for jiggle mode
+        reader.onload = function(event) {
+            const entries = JSON.parse(event.target.result);
+            const transaction = db.transaction(['entries'], 'readwrite');
+            const objectStore = transaction.objectStore('entries');
 
-     function saveEntry(note, imageFile) {
-         let entries = JSON.parse(localStorage.getItem('scrapbookEntries')) || [];
-         const reader = new FileReader();
+            entries.forEach(entry => {
+                objectStore.add(entry);
+            });
 
-         reader.onload = function(event) {
-             const newEntry = {
-                 note: note,
-                 image: event.target.result // Base64 string of the image
-             };
-             entries.push(newEntry);
-             localStorage.setItem('scrapbookEntries', JSON.stringify(entries));
-             loadEntries(); // Load entries after saving
-         };
+            loadEntries(); // Reload entries after restoring
+        };
 
-         reader.onerror = function() {
-             alert("Failed to read file. Please try again.");
-         };
+        reader.readAsText(file);
+    };
 
-         if (imageFile) {
-             reader.readAsDataURL(imageFile);
-         } else {
-             saveEntryWithoutImage(note);
-         }
-     }
+    fileInput.click();
+}
 
-     function saveEntryWithoutImage(note) {
-         let entries = JSON.parse(localStorage.getItem('scrapbookEntries')) || [];
-         entries.push({ note: note, image: null });
-         localStorage.setItem('scrapbookEntries', JSON.stringify(entries));
-         loadEntries(); // Load entries after saving
-     }
+document.addEventListener('DOMContentLoaded', function() {
+    openDatabase();
 
-     function loadEntries() {
-         const entriesContainer = document.getElementById('entriesContainer');
-         entriesContainer.innerHTML = ''; // Clear existing entries
+    document.getElementById('addButton').onclick = function() {
+        const noteInput = document.getElementById('noteInput');
+        const imageInput = document.getElementById('imageInput');
 
-         let entries = JSON.parse(localStorage.getItem('scrapbookEntries')) || [];
+        if (noteInput.value.trim() === "") {
+            alert("Please write a note.");
+            return;
+        }
 
-         entries.forEach((entry, index) => {
-             const entryDiv = document.createElement('div');
-             entryDiv.className = 'entry';
-             entryDiv.innerHTML = `
-                 <p>${entry.note}</p>
-                 ${entry.image ? `<img src="${entry.image}" alt="Entry Image" />` : ''}
-                 ${isJiggling ? `<button class="delete-entry-button" onclick="deleteEntry(${index})">Delete</button>` : ''}
-             `;
-             entriesContainer.appendChild(entryDiv);
-         });
-     }
+        saveEntry(noteInput.value, imageInput.files[0]);
+        noteInput.value = '';
+        imageInput.value = '';
+        document.getElementById('imagePreview').style.display = 'none'; // Hide the preview
+    };
 
-     function deleteEntry(index) {
-         let entries = JSON.parse(localStorage.getItem('scrapbookEntries')) || [];
-         entries.splice(index, 1); // Remove the entry
-         localStorage.setItem('scrapbookEntries', JSON.stringify(entries));
-         loadEntries(); // Reload entries after deletion
-     }
+    document.getElementById('imageInput').onchange = function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
 
-     function handleImageSelection(imageUri) {
-         // Process the image URI (for example, show it in an <img> tag)
-         const imagePreview = document.getElementById('imagePreview');
-         imagePreview.src = imageUri; // Display the selected image
-         imagePreview.style.display = 'block'; // Show the image preview
-     }
-     </script>
+        reader.onload = function(e) {
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block'; // Show the preview
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
+    document.getElementById('jiggleButton').onclick = function() {
+        isJiggling = !isJiggling;
+        loadEntries(); // Refresh entries to show/hide delete buttons
+    };
+
+    document.getElementById('saveButton').onclick = saveEntries;
+    document.getElementById('restoreButton').onclick = restoreEntries;
+});
+
+</script>
 
 <script src="js/bootstrap.bundle.min.js"></script>
-
 
 </body>
 </html>
