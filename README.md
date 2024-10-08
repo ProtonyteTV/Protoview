@@ -1,26 +1,21 @@
-ProtoView an project made by ProtonyteTV
----------------------------------------------
-Features
----------------------------------------------
-1.DomStorage
-<br>
-2.Image File Upload
-<br>
-3.DomStorage Backup and restore
+# ProtoView
+A project developed by ProtonyteTV
 
-Full Sources Available excluding the html contents soon to remove on future commits
---------
-Build details
---
-API Used Android 5.0
-<br>
-<br>
-Gradle 8.5
-<br>
-<br>
-AGP 8.1.1
+## Features
+- **DOM Storage**: Persistent storage solution for web applications.
+- **Image File Upload**: Support for uploading image files through the WebView.
+~~**DOM Storage Backup and Restore**: Easily back up and restore DOM storage, including images.~~
 
-Changelogs
--
-Added - Domstorage Backup and restore
-Fixed - Image Support
+> **Note:** Full source code is available, excluding HTML content, which will be removed in future commits.
+
+---
+
+## Build Details
+- **Target API:** [Android 5.0 (Lollipop)]
+- **Gradle Version:** [8.5]
+- **Android Gradle Plugin (AGP):** [8.1.1]
+
+## Changelog
+- **Added:** DOM storage backup and restore functionality.
+- **Fixed:** Enhanced support for image uploads.
+- **Removed:** Html contents *excluding index.html and css.
