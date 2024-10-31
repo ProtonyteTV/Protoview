@@ -1,5 +1,7 @@
 package aimee.protoapps.com.a112823;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,20 +15,14 @@ import android.webkit.WebViewClient;
 import android.webkit.JavascriptInterface;
 import android.support.v7.app.AppCompatActivity;
 import androidx.annotation.Nullable;
+import android.widget.Toast;
 
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
     private ValueCallback<Uri[]> filePathCallback;
     private static final int FILECHOOSER_RESULTCODE = 1;
-    private static final int REQUEST_SAVE_FILE = 100;
-    private static final int REQUEST_LOAD_FILE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Handle file input for image upload
         webView.setWebChromeClient(new WebChromeClient() {
-            // For Android 5.0 and above
             @Override
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
                 if (MainActivity.this.filePathCallback != null) {
@@ -77,9 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Load the HTML file from the assets folder
         webView.loadUrl("file:///android_asset/index.html");
+
+        // Schedule notifications
+        scheduleDailyNotification();
+        scheduleMonthlyNotification();
     }
 
-    // Handle the result of the file chooser and file import/export
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -99,36 +97,65 @@ public class MainActivity extends AppCompatActivity {
             filePathCallback.onReceiveValue(results);
             filePathCallback = null;
         }
+    }
 
-        // Handle saving the backup file
-        if (requestCode == REQUEST_SAVE_FILE && resultCode == RESULT_OK) {
-            if (data != null) {
-                Uri uri = data.getData();
-                if (uri != null) {
-                    // Save the DOM storage data to the selected file
-                    webView.evaluateJavascript("getDomStorageData();", value -> {
-                        saveFile(uri, value);
-                    });
-                }
-            }
+    // Schedule daily notification at 8:30 PM
+    private void scheduleDailyNotification() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 20); // 8 PM
+        calendar.set(Calendar.MINUTE, 00); // 00 minutes
+        calendar.set(Calendar.SECOND, 0); // 0 seconds
+
+        // If the time is in the past, schedule for tomorrow
+        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
         }
 
-        // Handle loading the backup file
-        if (requestCode == REQUEST_LOAD_FILE && resultCode == RESULT_OK) {
-            if (data != null) {
-                Uri uri = data.getData();
-                if (uri != null) {
-                    String domData = readFile(uri);
-                    if (domData != null) {
-                        webView.loadUrl("javascript:restoreDomStorageData(" + domData + ");");
-                    }
-                }
-            }
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.putExtra("title", "112823");
+        intent.putExtra("message", "Love ano wala ba tayong pa notes dyan?");
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY,
+                    pendingIntent);
         }
     }
 
-    // Interface for JavaScript to call Java methods
-    public class JavaScriptInterface {
+    // Schedule monthly notification on the 28th at 6:30 AM
+    private void scheduleMonthlyNotification() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 28);
+        calendar.set(Calendar.HOUR_OF_DAY, 6); // 6 AM
+        calendar.set(Calendar.MINUTE, 30); // 30 minutes
+        calendar.set(Calendar.SECOND, 0); // 0 seconds
+
+        // If the date is in the past, schedule for next month
+        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+            calendar.add(Calendar.MONTH, 1);
+        }
+
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.putExtra("title", "112823");
+        intent.putExtra("message", "Ano love motmot natin walang bati bati?");
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY * 30,
+                    pendingIntent);
+        }
+    }
+
+    // Static inner class for JavaScript to call Java methods
+    public static class JavaScriptInterface {
         Context mContext;
 
         /** Instantiate the interface and set the context */
@@ -136,56 +163,11 @@ public class MainActivity extends AppCompatActivity {
             mContext = c;
         }
 
-        /** Call this method from JavaScript to trigger DOM storage backup */
+        // Example method that can be called from JavaScript
         @JavascriptInterface
-        public void exportDomStorage() {
-            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-            intent.setType("application/json");
-            intent.putExtra(Intent.EXTRA_TITLE, "domstorage_backup.json");
-            startActivityForResult(intent, REQUEST_SAVE_FILE);
+        public void showToast(String message) {
+            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
         }
-
-        /** Call this method from JavaScript to trigger DOM storage restore */
-        @JavascriptInterface
-        public void importDomStorage() {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.setType("application/json");
-            startActivityForResult(intent, REQUEST_LOAD_FILE);
-        }
-    }
-
-    // Save the DOM storage data to a file
-    private void saveFile(Uri uri, String data) {
-        try {
-            // Use OutputStream instead of FileOutputStream
-            OutputStream os = getContentResolver().openOutputStream(uri);
-            if (os != null) {
-                os.write(data.getBytes(StandardCharsets.UTF_8));
-                os.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Read the DOM storage data from a file
-    private String readFile(Uri uri) {
-        StringBuilder stringBuilder = new StringBuilder();
-        try {
-            // Use InputStream and InputStreamReader instead of FileReader
-            InputStream is = getContentResolver().openInputStream(uri);
-            if (is != null) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-                reader.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return stringBuilder.toString();
     }
 
     @Override

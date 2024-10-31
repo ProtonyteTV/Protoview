@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,42 +8,41 @@
     <title>112823</title>
 </head>
 <body>
-
 <!-- Title Screen -->
 <div class="full-screen" id="title-screen">
-    <h1>Protoview</h1>
-    <h3>A Webview App</h3>
-    <p>Tap to strat</p>
-    <a href="#scrapbook" class="button">Start</a>
+    <h1>ProtoView</h1>
+    <h3>Proof of concept</h3>
+    <p>Tap Enter</p>
+    <a href="#scrapbook" class="button">ENTER</a>
     <div class="footer">Made with love from Kyle Genesis Fernando</div>
 </div>
 
 <!-- Scrapbook Section -->
 <div class="container" id="scrapbook" style="display: none;">
-    <h1 style="font-size: 30px">Header</h1>
-
-    <div id="entriesContainer"></div>
+    <h1 style="font-size: 30px"> ProtoView</h1>
+    
+    <div class="separator"></div>
 
     <div class="add-entry-container">
-        <h4 style="text-align: center; font-size: 25px;">Add own photos and notes</h4>
+        <h4 style="text-align: center; font-size: 25px;">Add Entry</h4>
         <textarea id="noteInput" placeholder="Write your notes here..." class="add-entry-textarea"></textarea>
 
         <div class="image-upload-container">
             <label for="imageInput" class="image-upload-label">
-                <span>Choose Image</span>
-                <input type="file" id="imageInput" accept="image/*" capture="camera" class="add-entry-file" />
+                <span>Upload Image</span>
+                <input type="file" id="imageInput" accept="image/*" class="add-entry-file" />
             </label>
             <img id="imagePreview" class="image-preview" alt="Image Preview" style="display:none;" />
         </div>
 
         <button id="addButton" class="add-entry-button">Add Entry</button>
-        <br>
         <button id="jiggleButton" class="add-entry-button red-button">Delete an entry</button>
-        <button id="saveButton" class="add-entry-button">Save Entries</button>
-        <button id="restoreButton" class="add-entry-button">Restore Entries</button>
     </div>
-    <div class="separator"></div>
-    <div class="footer"><p>ProtoView</p></div>
+    <div class='separator'></div>
+    <h2>Your Notes</h2>
+    <div id="entriesContainer"></div>
+        <div class="separator"></div>
+    <div class="footer"><p>ProtoView<br>ProtonyteTV 2024</p></div>
 </div>
 
 <script>
