@@ -21,5 +21,5 @@
 
 ## Changelog
 
-- **Added**: iOS Support (see [ProtoView-iOS](#(https://github.com/ProtonyteTV/ProtoView-iOS)))
+- **Added**: iOS Support (see [ProtoView-iOS](https://github.com/ProtonyteTV/ProtoView-iOS))
 - **Removed**: Save and restore JSON functionality
