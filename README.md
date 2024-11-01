@@ -6,9 +6,6 @@ Features
 <br>
 2.Image File Upload
 <br>
-3.DomStorage Backup and restore
-
-Full Sources Available excluding the html contents soon to remove on future commits
 --------
 Build details
 --
@@ -22,5 +19,5 @@ AGP 8.1.1
 
 Changelogs
 -
-Added - Domstorage Backup and restore
-Fixed - Image Support
+Added - Support for iOS See ProtoView-iOS
+Removed - Save and restore jsons
