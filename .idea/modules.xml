@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/anniv-main.iml" filepath="$PROJECT_DIR$/.idea/modules/anniv-main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/anniv-main.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/anniv-main.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/anniv-main.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/anniv-main.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/anniv-main.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/anniv-main.app.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/anniv-main.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/anniv-main.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Protoview-main.iml" filepath="$PROJECT_DIR$/.idea/modules/Protoview-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Protoview-main.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Protoview-main.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Protoview-main.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Protoview-main.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Protoview-main.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Protoview-main.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Protoview-main.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Protoview-main.app.unitTest.iml" />
     </modules>
   </component>
 </project>

@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, NotificationReceiver.class);
         intent.putExtra("title", "112823");
-        intent.putExtra("message", "Love ano wala ba tayong pa notes dyan?");
+        intent.putExtra("message", "mahal 8pm na gusto ko lang iremind ka na mahal na mahal kita palagi mwuaaaah!");
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, NotificationReceiver.class);
         intent.putExtra("title", "112823");
-        intent.putExtra("message", "Ano love motmot natin walang bati bati?");
+        intent.putExtra("message", "mahal happy monthsaryyyy iloveyou always mwuaah!");
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
