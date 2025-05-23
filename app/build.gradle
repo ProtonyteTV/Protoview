@@ -8,8 +8,8 @@ android {
         minSdkVersion 21 // Set to Lollipop
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
-        versionCode 8
-        versionName "8.0"
+        versionCode 9
+        versionName "9.0"
     }
 
     buildTypes {

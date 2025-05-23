@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -18,6 +19,12 @@ import androidx.annotation.Nullable;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import android.app.AlertDialog;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
@@ -72,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Load the HTML file from the assets folder
         webView.loadUrl("file:///android_asset/index.html");
+        checkForUpdate();
+
+
 
         // Schedule notifications
         scheduleDailyNotification();
@@ -169,7 +179,46 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
         }
     }
+    private void checkForUpdate() {
+        new Thread(() -> {
+            try {
+                URL url = new URL("https://api.github.com/repos/ProtonyteTV/Protoview/releases/latest");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
 
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                String json = response.toString();
+                String latestVersion = json.split("\"tag_name\":\"")[1].split("\"")[0];
+                String releaseURL = json.split("\"html_url\":\"")[1].split("\"")[0];
+
+                String currentVersion = "9.0"; // Your current version
+
+                if (!latestVersion.equals(currentVersion)) {
+                    runOnUiThread(() -> {
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("112823 Update Available")
+                                .setMessage("112823 " + latestVersion + " is available mahal kaya update mo na please! HAHAHA")
+                                .setPositiveButton("Update", (dialog, which) -> {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(releaseURL)));
+                                })
+                                .setNegativeButton("Later", null)
+                                .show();
+                    });
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
     @Override
     public void onBackPressed() {
         if (webView != null && webView.canGoBack()) {
