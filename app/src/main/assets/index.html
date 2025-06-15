@@ -1,48 +1,98 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
-    <title>112823</title>
+    <title>ProtoView</title>
+    
 </head>
-<body>
+
+    <body>
+
+   <style>
+        
+.container-glow {
+     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.glow-button {
+    background-color: #007aff; /* iOS blue */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 33px;
+    font-size: 18px;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    transition: background-color 0.5s;
+}
+
+/* Glow effect */
+.glow {
+    box-shadow: 0 0 30px #007aff, 0 0 60px #007aff;
+    animation: pulse 3s infinite; /* Umiikot na glow */
+}
+
+/* Animation para sa pag-pulse ng glow */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 30px #007aff, 0 0 60px #007aff;
+    }
+    50% {
+        box-shadow: 0 0 50px #007aff, 0 0 100px #007aff;
+    }
+    100% {
+        box-shadow: 0 0 30px #007aff, 0 0 60px #007aff;
+    }
+}
+    </style>
 <!-- Title Screen -->
 <div class="full-screen" id="title-screen">
     <h1>ProtoView</h1>
-    <h3>Proof of concept</h3>
-    <p>Tap Enter</p>
+    <h3>A ProtonyteTV App</h3>
+    <p>Tap the Enter</p>
     <a href="#scrapbook" class="button">ENTER</a>
-    <div class="footer">Made with love from Kyle Genesis Fernando</div>
+    <div class="footer">Made by Kyle Genesis Fernando</div>
 </div>
 
 <!-- Scrapbook Section -->
 <div class="container" id="scrapbook" style="display: none;">
-    <h1 style="font-size: 30px"> ProtoView</h1>
+      <div class="glass-background"></div>
+  <div class="container-content">
+    <h1 style="font-size: 30px"></h1>
     
-    <div class="separator"></div>
+  <div class="add-entry-container">
+  <div class="glass-background"></div>
+  <div class="container-content">
+    <!-- lahat ng form controls dito -->
+    <h4 style="text-align: center; font-size: 25px;">Add Entry</h4>
+    <textarea id="noteInput" placeholder="Write your notes here..." class="add-entry-textarea"></textarea>
 
-    <div class="add-entry-container">
-        <h4 style="text-align: center; font-size: 25px;">Add Entry</h4>
-        <textarea id="noteInput" placeholder="Write your notes here..." class="add-entry-textarea"></textarea>
-
-        <div class="image-upload-container">
-            <label for="imageInput" class="image-upload-label">
-                <span>Upload Image</span>
-                <input type="file" id="imageInput" accept="image/*" class="add-entry-file" />
-            </label>
-            <img id="imagePreview" class="image-preview" alt="Image Preview" style="display:none;" />
-        </div>
-
-        <button id="addButton" class="add-entry-button">Add Entry</button>
-        <button id="jiggleButton" class="add-entry-button red-button">Delete an entry</button>
+    <div class="image-upload-container">
+      
+<div class="image-upload-container">
+    <label for="imageInput" class="image-upload-label">Upload Image</label>
+    <input type="file" id="imageInput" accept="image/*" class="add-entry-file" />
+</div>
+      <img id="imagePreview" class="image-preview" alt="Image Preview" style="display:none;" />
     </div>
+
+  <button id="addButton" class="add-entry-button liquid-glass-button">Add Entry</button>
+<button id="jiggleButton" class="add-entry-button red-button liquid-glass-button">Delete an entry</button>
+  </div>
+</div>
     <div class='separator'></div>
     <h2>Your Notes</h2>
     <div id="entriesContainer"></div>
-        <div class="separator"></div>
-    <div class="footer"><p>ProtoView<br>ProtonyteTV 2025</p></div>
+    <div class='separator'></div>
+   
+    <div class="separator"></div>
+    <div class="footer"><p>ProtoView<br> A ProtonyteTV App<br>aimView Version: 26.0(06132025r)</p></div>
 </div>
 
 <script>
@@ -114,21 +164,27 @@ function loadEntries() {
     const request = objectStore.getAll();
 
     request.onsuccess = function(event) {
-        const entries = event.target.result;
-        entries.forEach((entry) => {
-            const entryDiv = document.createElement('div');
-            entryDiv.className = 'entry';
-            const date = new Date(entry.timestamp).toLocaleString();
+    const entries = event.target.result;
+    entries.forEach((entry) => {
+        const entryDiv = document.createElement('div');
+        entryDiv.className = 'entry';
+        const date = new Date(entry.timestamp).toLocaleString();
 
-entryDiv.innerHTML =
-    `<p style="font-size: 14px; color: #aaa; margin-bottom: 5px;">${date}</p>
-     <p>${entry.note}</p>
-     ${entry.image ? `<img src="${entry.image}" alt="Entry Image" />` : ''}
-     ${isJiggling ? `<button class="delete-entry-button" onclick="deleteEntry(${entry.id})">Delete</button>` : ''}`;
+        // Apply glass-background + content separation
+       entryDiv.innerHTML = `
+    <div class="glass-background"></div>
+    <div class="container-content">
+        <p style="font-size: 14px; color: #fff; margin-bottom: 5px;">${date}</p>
+        <p>${entry.note}</p>
+        ${entry.image ? `<img src="${entry.image}" alt="Entry Image" />` : ''}
+        ${isJiggling ? `<button class="delete-entry-button" onclick="deleteEntry(${entry.id})">Delete</button>` : ''}
+    </div>
+`;
 
-            entriesContainer.appendChild(entryDiv);
-        });
-    };
+        entriesContainer.appendChild(entryDiv);
+    });
+};
+
 }
 
 // Delete an entry from IndexedDB
@@ -326,9 +382,86 @@ glowButton.addEventListener('click', () => {
         }
     });
 </script>
-    
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    let currentScale = 1;
+    let currentBorder = 24;
+
+    function animate() {
+        const scrollY = window.scrollY;
+        const distort = Math.min(scrollY / 400, 1);
+
+        const targetScale = 1 + (distort * 0.03);
+        const targetBorder = 24 + (distort * 6);
+
+        currentScale += (targetScale - currentScale) * 0.15;
+        currentBorder += (targetBorder - currentBorder) * 0.15;
+
+        document.querySelectorAll('.container, .add-entry-container, .entry').forEach(el => {
+            el.style.transform = `scale(${currentScale})`;
+            el.style.borderRadius = `${targetBorder}px`;
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+});
+
+</script>
+
 
 <script src="js/bootstrap.bundle.min.js"></script>
+<svg style="display: none">
+  <filter
+    id="glass-distortion"
+    x="-20%" y="-20%" width="140%" height="140%"
+    filterUnits="objectBoundingBox"
+  >
+    <feTurbulence
+      type="fractalNoise"
+      baseFrequency="0.01 0.01"
+      numOctaves="1"
+      seed="5"
+      result="turbulence"
+    />
+    <feComponentTransfer in="turbulence" result="mapped">
+      <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+      <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+      <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+    </feComponentTransfer>
+    <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap" />
+    <feSpecularLighting
+      in="softMap"
+      surfaceScale="5"
+      specularConstant="1"
+      specularExponent="100"
+      lighting-color="white"
+      result="specLight"
+    >
+      <fePointLight x="-200" y="-200" z="300" />
+    </feSpecularLighting>
+    <feComposite
+      in="specLight"
+      operator="arithmetic"
+      k1="0"
+      k2="1"
+      k3="1"
+      k4="0"
+      result="litImage"
+    />
+    <feDisplacementMap
+      in="SourceGraphic"
+      in2="softMap"
+      scale="150"
+      xChannelSelector="R"
+      yChannelSelector="G"
+    />
+  </filter>
+</svg>
+
+
 
 </body>
 </html>
