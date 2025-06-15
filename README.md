@@ -39,3 +39,29 @@ ProtoView is a fully offline-first personal journaling engine built using lightw
 - IDE: Android Studio Iguana or higher
 
 ---
+
+---
+
+# 🚀 Codename: Genesis
+
+ProtoView Genesis 26.0 marks the full separation of the Android and iOS engines while maintaining full feature parity on journaling features.
+
+---
+
+# 🛡 Privacy First
+
+ProtoView stores all your data locally on-device. No internet or cloud storage is required. Your personal moments remain entirely private.
+
+---
+
+# 📝 Full Version History
+
+For full changelog across all versions, see `CHANGELOG.md`
+
+---
+
+# 💡 Credits
+
+- Liquid Glass (aimGlass Engine™) R&D: 2025-2026
+- WebGL shader research & optimizations
+- Built and designed by ProtonyteTV
