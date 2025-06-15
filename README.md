@@ -35,7 +35,7 @@ ProtoView is a fully offline-first personal journaling engine built using lightw
 - Target SDK: 34 (Android 14)
 - Gradle: 8.5
 - Android Gradle Plugin (AGP): 8.1.1
-- Language: Kotlin (Minimal)
+- Language: Java
 - IDE: Android Studio Iguana or higher
 
 ---
